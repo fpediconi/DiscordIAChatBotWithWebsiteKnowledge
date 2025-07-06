@@ -1,28 +1,37 @@
-// src/index.js
-import { BindingManager } from './bindings/BindingManager.js';
-import { PromptBuilder } from './ia/PromptBuilder.js';
+import { WikiProvider }     from './providers/WikiProvider.js';
+import { OffgameProvider }  from './providers/OffgameProvider.js';
+import { KnowledgeProvider } from './providers/KnowledgeProvider.js';
+import { PromptBuilder }    from './ia/PromptBuilder.js';
 import { OpenRouterClient } from './ia/OpenRouterClient.js';
-import { DiscordClient } from './client/DiscordClient.js';
+import { DiscordClient }    from './client/DiscordClient.js';
 
-const bindings = new BindingManager();
-await bindings.init();
+(async () => {
+  const wikiProvider    = new WikiProvider({ dbPath: './data/database.db' });
+  const offgameProvider = new OffgameProvider({ jsonPath: './data/offgame.json' });
 
-const promptBuilder = new PromptBuilder();
-const openRouter = new OpenRouterClient();
+  // Precargar offline (opcional)
+  await offgameProvider.ingest();
 
-// 2. Definir cómo responder a cada mensaje
-const onMessage = async (userMessage, senderId) => {
-  console.log(`📩 Mensaje recibido de ${senderId}: "${userMessage}"`);
+  const km = new KnowledgeProvider({
+    providers:    [wikiProvider, offgameProvider],
+    topK:         5,
+    globalTopK:  10
+  });
 
-  const matchedWikiEntries = await bindings.getWikiEntryByQuery(userMessage);
+  const promptBuilder = new PromptBuilder();
+  const openRouter   = new OpenRouterClient();
 
-  const prompt = promptBuilder.buildPrompt(userMessage, matchedWikiEntries);
-  console.log(`📝 Prompt generado:\n${prompt}`);
-  const iaResponse = await openRouter.getCompletion(prompt);
+  const onMessage = async (userMessage, senderId) => {
+    const fragments = await km.retrieveAll(userMessage);
+    // Si no hay info, devolvemos fallback directo
+    if (!fragments.length) {
+      return `Lo siento, no encontré información sobre "${userMessage}".`;
+    }
+    const prompt = promptBuilder.buildPrompt(userMessage, fragments);
+    console.log(`Prompt para ${senderId}:\n${prompt}\n\n---\n`);
+    return await openRouter.getCompletion(prompt);
+  };
 
-  return iaResponse;
-};
-
-// 3. Iniciar Discord
-const discordBot = new DiscordClient(onMessage);
-await discordBot.start();
+  const discordBot = new DiscordClient(onMessage);
+  await discordBot.start();
+})();

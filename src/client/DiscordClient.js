@@ -1,24 +1,21 @@
+// src/client/DiscordClient.js
 import { Client, GatewayIntentBits } from 'discord.js';
 import { config } from '../config/config.js';
 
 /**
- * Divide un texto en trozos de como máximo maxLen caracteres,
- * intentando cortar en saltos de línea o espacios.
+ * Divide un texto en trozos de máximo maxLen caracteres.
  */
 function splitMessage(text, maxLen = 2000) {
   const chunks = [];
   let start = 0;
   while (start < text.length) {
     let end = Math.min(text.length, start + maxLen);
-
-    // Trata de retroceder hasta el último salto de línea o espacio
     if (end < text.length) {
-      const lastNewline = text.lastIndexOf('\n', end);
-      const lastSpace   = text.lastIndexOf(' ', end);
-      const cutPos = Math.max(lastNewline, lastSpace);
-      if (cutPos > start) end = cutPos;
+      const lastNl = text.lastIndexOf('\n', end);
+      const lastSp = text.lastIndexOf(' ', end);
+      const cut = Math.max(lastNl, lastSp);
+      if (cut > start) end = cut;
     }
-
     chunks.push(text.slice(start, end));
     start = end;
   }
@@ -47,26 +44,23 @@ export class DiscordClient {
       if (message.author.bot) return;
       if (message.channel.id !== this.allowedChannelId) return;
 
-      const trigger = '!wiki ';
+      // Nuevo trigger
+      const trigger = '!furia ';
       if (!message.content.toLowerCase().startsWith(trigger)) return;
 
       const userMessage = message.content.slice(trigger.length).trim();
       const senderId = message.author.id;
-
       await message.channel.sendTyping();
 
       const response = await this.onMessage(userMessage, senderId);
 
       if (typeof response === 'string') {
-        // Fragmentar mensajes largos
         const parts = splitMessage(response);
-        // Enviar primera parte como reply para mencionar al usuario
         await message.reply(parts[0]);
-        // Enviar las partes restantes sin mención
         for (let i = 1; i < parts.length; i++) {
           await message.channel.send(parts[i]);
         }
-      } else if (response?.type === 'media' && Array.isArray(response.mediaList)) {
+      } else if (response?.type === 'media') {
         for (const media of response.mediaList) {
           await message.channel.send({
             content: media.caption,

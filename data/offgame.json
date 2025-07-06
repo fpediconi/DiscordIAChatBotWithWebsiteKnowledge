@@ -1,0 +1,72 @@
+[
+  {
+    "id": "history-001",
+    "domain": "history",
+    "title": "Origen de FuriusAO",
+    "content": "Furius es un proyecto basado en Argentum Online, creado por Abusing en 2005.",
+    "tags": ["origen", "inicios", "historia"]
+  },
+  {
+    "id": "history-002",
+    "domain": "history",
+    "title": "Versiones del juego",
+    "content": "Existieron multiples versiones de FuriusAO, cada una con mejoras y cambios significativos. La versión más reciente es la 14.0, lanzada en 2025. Versiones previas: El retorno del Rey",
+    "tags": ["versiones", "pasadas"]
+  },
+  {
+    "id": "staff-001",
+    "domain": "staff",
+    "title": "Abusing",
+    "content": "Abusing, o Leo es el creador del juego y la actual persona responsable del proyecto.",
+    "tags": ["GM", "abusing", "leo"]
+  },
+  {
+    "id": "staff-002",
+    "domain": "staff",
+    "title": "Kirito",
+    "content": "Kirito, o Leo es el actual coordinador del proyecto junto a Abusing.",
+    "tags": ["GM", "kirito", "kiri"]
+  },
+  {
+    "id": "staff-003",
+    "domain": "staff",
+    "title": "Banner",
+    "content": "Banner o Ignacio, es el actual Director de Diseño y Escenarios.",
+    "tags": ["GM", "kirito", "kiri"]
+  },
+  {
+    "id": "staff-004",
+    "domain": "staff",
+    "title": "Nafuxue",
+    "content": "Nafuxue o Nicolas, trabaja ahora en Desarrollo General.",
+    "tags": ["GM", "kirito", "kiri"]
+  },
+  {
+    "id": "faq-002",
+    "domain": "faq",
+    "title": "¿Dónde reporto bugs?",
+    "content": "Puedes reportar errores en nuestro canal de Discord #bugs o a través del formulario en la web... (detalles de contacto).",
+    "tags": ["errores", "soporte", "contacto"]
+  },
+  {
+    "id": "faq-003",
+    "domain": "faq",
+    "title": "¿Cómo puedo donar?",
+    "content": "Puedes donar a través de PayPal o Patreon. Visita nuestra página de donaciones para más detalles.",
+    "tags": ["donaciones", "dono", "donar", "mercadoPago", "mercado pago"]
+  },
+  {
+    "id": "faq-004",
+    "domain": "faq",
+    "title": "¿Cómo puedo contactar al staff?",
+    "content": "Puedes contactar al staff a través de nuestro Discord o enviando un correo electrónico a",
+    "tags": ["contacto", "staff", "discord", "correo"]
+  },
+  {
+    "id":"faq-005",
+    "domain": "faq",
+    "title": "¿Cual es la web oficial?",
+    "content": "La web oficial de FuriusAO es https://furiusao.com.ar",
+    "tags": ["web", "oficial", "furiusao"]
+  }
+]

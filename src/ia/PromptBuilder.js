@@ -1,37 +1,52 @@
+// src/ia/PromptBuilder.js
 export class PromptBuilder {
   /**
-   * Genera un prompt estructurado en secciones claramente delimitadas
-   * para maximizar la eficiencia y claridad de comprensión.
+   * Genera un prompt RAG con secciones dinámicas según los fragments recibidos.
+   * @param {string} userQuery
+   * @param {Array<{ text: string, score: number, metadata: { source: string } }>} fragments
    */
-  buildPrompt(userMessage, entry) {
-    // Sección 1: Consulta del usuario
-    const sectionQuery = [
-      '### Consulta del usuario',
-      `"${userMessage.trim()}"`
-    ].join('\n');
+  buildPrompt(userQuery, fragments) {
+    // 1. Instrucciones al sistema
+    const system = [
+      "[SYSTEM]",
+      "Eres Furia, el asistente de FuriusAO en Discord.",
+      "Usa únicamente la información provista en CONTEXT; no inventes datos.",
+      "Si no hay suficiente información, indícalo claramente.",
+      ""
+    ].join("\n");
 
-    // Sección 2: Contexto (wiki o fallback)
-    const sectionContext = entry
-      ? [
-          '### Contexto de la wiki',
-          `**Título**: ${entry.titulo}`,
-          `**Categoría**: ${entry.categoria}`,
-          entry.contenido.trim(),
-          `Fuente: ${entry.url}`
-        ].join('\n')
-      : [`### Contexto de la wiki`, 'No se encontró información. Recomienda visitar https://fsao.com.ar/wiki'].join('\n');
+    // 2. Contexto: agrupar por fuente y renderizar solo las secciones presentes
+    const bySource = fragments.reduce((acc, f) => {
+      acc[f.metadata.source] = acc[f.metadata.source] || [];
+      acc[f.metadata.source].push(f.text);
+      return acc;
+    }, {});
 
-    // Sección 3: Instrucciones para el modelo
-    const sectionInstructions = [
-      '### Instrucciones para el modelo',
-      '- Usa exclusivamente la información proporcionada en el contexto.',
-      '- No inventes datos; si falta información, indícalo claramente.',
-      '- Responde en español con acento rioplatense.',
-      '- Sé claro, concreto y directo.',
-      '- Omite saludos y despedidas.'
-    ].join('\n');
+    const contextSections = [];
+    if (bySource.wiki) {
+      contextSections.push(
+        "=== Wiki ===\n" +
+        bySource.wiki.map(t => `• ${t}`).join("\n")
+      );
+    }
+    if (bySource.offgame) {
+      contextSections.push(
+        "=== Off-game (lore/staff) ===\n" +
+        bySource.offgame.map(t => `• ${t}`).join("\n")
+      );
+    }
+    if (bySource.events) {
+      contextSections.push(
+        "=== Eventos recientes ===\n" +
+        bySource.events.map(t => `• ${t}`).join("\n")
+      );
+    }
+    const context = ["[CONTEXT]", ...contextSections, ""].join("\n");
 
-    // Combinar secciones con un separador uniforme
-    return [sectionQuery, sectionContext, sectionInstructions].join('\n\n---\n\n');
+    // 3. Consulta del usuario
+    const user = `[USER MESSAGE]\n${userQuery.trim()}`;
+
+    // Ensamblar prompt
+    return [system, context, user].join("\n");
   }
 }
