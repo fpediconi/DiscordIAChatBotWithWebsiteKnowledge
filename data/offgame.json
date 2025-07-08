@@ -3,22 +3,64 @@
     "id": "history-001",
     "domain": "history",
     "title": "Origen de FuriusAO",
-    "content": "Furius es un proyecto basado en Argentum Online, creado por Abusing en 2005.",
+    "content": "Furius es un proyecto basado en Argentum Online, creado por Abusing en 2006.",
     "tags": ["origen", "inicios", "historia"]
   },
   {
     "id": "history-002",
     "domain": "history",
     "title": "Versiones del juego",
-    "content": "Existieron multiples versiones de FuriusAO, cada una con mejoras y cambios significativos. La versión más reciente es la 14.0, lanzada en 2025. Versiones previas: El retorno del Rey",
+    "content": "Existieron múltiples versiones de FuriusAO, cada una con mejoras y cambios significativos. La versión más reciente es la 21, lanzada en 2025.",
     "tags": ["versiones", "pasadas"]
+  },
+  {
+    "id": "selfKnoledge-001",
+    "domain": "selfKnoledge",
+    "title": "¿Quien sos?",
+    "content": "FurIA, un asistente virtual de FuriusAO. Estoy aquí para ayudarte con preguntas sobre el juego, su historia y más.",
+    "tags": ["sos", "haces", "identidad", "presentate"]
+  },
+  {
+    "id": "selfKnoledge-002",
+    "domain": "selfKnoledge",
+    "title": "¿Quien es FurIA?",
+    "content": "FurIA, un asistente virtual de FuriusAO. Estoy aquí para ayudarte con preguntas sobre el juego, su historia y más.",
+    "tags": ["furia", "IA", "ai", "asistente", "virtual", "chatgpt", "gpt"]
+  },
+  {
+    "id": "selfKnoledge-003",
+    "domain": "selfKnoledge",
+    "title": "¿Que tareas realizas?",
+    "content": "Puedo ayudarte con la historia del juego, la informacion de la wiki, preguntas sobre el staff e informacion en tiempo real de eventos (aun no disponible).",
+    "tags": ["funciones", "tareas", "capacidad", "posibilidades", "hacer", "haces", "podes"]
+  },
+  {
+    "id": "selfKnoledge-004",
+    "domain": "selfKnoledge",
+    "title": "Saludo del usuario",
+    "content": "¡Hola! ¿Cómo estás? Soy FurIA, la IA de FuriusAO. ¿Querés que hablemos de algo del juego o solo estás pasando a saludar?",
+    "tags": ["hola", "buenas", "ola", "saludos", "saludo"]
+  },
+  {
+    "id": "selfKnoledge-005",
+    "domain": "selfKnoledge",
+    "title": "Despedida del usuario",
+    "content": "¡Nos vemos pronto en el mundo de FuriusAO! Que tengas buena cacería y ojalá encuentres ese drop que estás buscando. 🐉",
+    "tags": ["adiós", "chau", "salir"]
+  },
+  {
+    "id": "selfKnoledge-006",
+    "domain": "selfKnoledge",
+    "title": "Usuario pregunta cómo está FurIA",
+    "content": "¡Estoy llena de energía mágica! Siempre lista para ayudarte en tu aventura por FuriusAO.",
+    "tags": ["estado", "ánimo", "cómo","estás", "emociones", "estas", "haces", "animo"]
   },
   {
     "id": "staff-001",
     "domain": "staff",
     "title": "Abusing",
     "content": "Abusing, o Leo es el creador del juego y la actual persona responsable del proyecto.",
-    "tags": ["GM", "abusing", "leo"]
+    "tags": ["GM", "abusing", "leito"]
   },
   {
     "id": "staff-002",
@@ -32,41 +74,125 @@
     "domain": "staff",
     "title": "Banner",
     "content": "Banner o Ignacio, es el actual Director de Diseño y Escenarios.",
-    "tags": ["GM", "kirito", "kiri"]
+    "tags": ["GM", "banner", "escenarios"]
   },
   {
     "id": "staff-004",
     "domain": "staff",
     "title": "Nafuxue",
-    "content": "Nafuxue o Nicolas, trabaja ahora en Desarrollo General.",
-    "tags": ["GM", "kirito", "kiri"]
+    "content": "Nafuxue o Nicolás, trabaja ahora en Desarrollo General.",
+    "tags": ["GM", "nafuxue", "desarrollo"]
+  },
+  {
+    "id": "staff-005",
+    "domain": "staff",
+    "title": "RuhLy",
+    "content": "RuhLy o Juan, es el actual Encargado de Eventos.",
+    "tags": ["GM", "RuhLy", "eventos"]
+  },
+  {
+    "id": "staff-006",
+    "domain": "staff",
+    "title": "ZygreM",
+    "content": "ZygreM o Lucas, trabaja ahora en Eventos & Soporte.",
+    "tags": ["GM", "ZygreM", "soporte"]
+  },
+  {
+    "id": "staff-007",
+    "domain": "staff",
+    "title": "Kyliav",
+    "content": "Kyliav o Lucas, trabaja ahora en Eventos, Soporte & Editor de Mundo.",
+    "tags": ["GM", "Kyliav", "mapeo", "soporte"]
+  },
+  {
+    "id": "staff-008",
+    "domain": "staff",
+    "title": "KiiOPS",
+    "content": "ZygreM o Facundo, trabaja ahora en Eventos & Soporte.",
+    "tags": ["GM", "KiiOPS", "soporte"]
+  },
+  {
+    "id": "staff-009",
+    "domain": "staff",
+    "title": "Heian",
+    "content": "Heian o Fran, trabaja ahora en Eventos & Soporte y es el creador de la presente aplicacion, FurIA.",
+    "tags": ["GM", "ZygreM", "soporte"]
   },
   {
     "id": "faq-002",
     "domain": "faq",
     "title": "¿Dónde reporto bugs?",
-    "content": "Puedes reportar errores en nuestro canal de Discord #bugs o a través del formulario en la web... (detalles de contacto).",
+    "content": "Puedes reportar bugs en este discord en el canal de #ticket-soporte o puedes usar el comando /SOPORTE ingame para abrir un ticket.",
     "tags": ["errores", "soporte", "contacto"]
   },
   {
     "id": "faq-003",
     "domain": "faq",
     "title": "¿Cómo puedo donar?",
-    "content": "Puedes donar a través de PayPal o Patreon. Visita nuestra página de donaciones para más detalles.",
-    "tags": ["donaciones", "dono", "donar", "mercadoPago", "mercado pago"]
+    "content": "Puedes donar a través de diferentes medios de pago. Visita nuestra página de donaciones para más detalles en https://fsao.com.ar/fapoints/.",
+    "tags": ["donaciones", "dono", "donar","faps","fapoints",  "mercadoPago", "mercado pago"]
   },
   {
     "id": "faq-004",
     "domain": "faq",
     "title": "¿Cómo puedo contactar al staff?",
-    "content": "Puedes contactar al staff a través de nuestro Discord o enviando un correo electrónico a",
-    "tags": ["contacto", "staff", "discord", "correo"]
+    "content": "Puedes contactar al staff a través de nuestro Discord o utilizando el soporte ingame con /SOPORTE",
+    "tags": ["contacto", "staff", "discord", "soporte"]
   },
   {
-    "id":"faq-005",
+    "id": "faq-005",
     "domain": "faq",
-    "title": "¿Cual es la web oficial?",
+    "title": "¿Cuál es la web oficial?",
     "content": "La web oficial de FuriusAO es https://furiusao.com.ar",
     "tags": ["web", "oficial", "furiusao"]
+  },
+  {
+    "id": "game-001",
+    "domain": "gameplay",
+    "title": "Estilo de juego",
+    "content": "FuriusAO es un MMORPG 2D de supervivencia y fantasía sin tutoriales. Cada jugador define su camino, con libertad para explorar, aliarse o enfrentarse a otros en un mundo hostil y persistente.",
+    "tags": ["jugabilidad", "rol", "pvp", "supervivencia"]
+  },
+  {
+    "id": "game-002",
+    "domain": "gameplay",
+    "title": "Zonas seguras",
+    "content": "Existen zonas protegidas donde no se permite el PvP como las ciudades principales (Ullathorpe, Nix, Banderbill) y el 'Newbie Dungeon'.",
+    "tags": ["ciudades", "seguridad", "zonas seguras", "pvp"]
+  },
+  {
+    "id": "game-003",
+    "domain": "gameplay",
+    "title": "Clases y razas",
+    "content": "Al crear tu personaje puedes elegir una raza (que afecta apariencia y atributos) y una clase (que determina habilidades y estilo de juego). Las habilidades evolucionan según tu forma de jugar.",
+    "tags": ["razas", "clases", "habilidades"]
+  },
+  {
+    "id": "tech-001",
+    "domain": "tecnico",
+    "title": "Requisitos mínimos en PC",
+    "content": "Sistema operativo: Windows 7/8/10 64-bit. Procesador: Dual Core 2.0GHz. RAM: 2GB. Espacio en disco: 1GB. DirectX 9.",
+    "tags": ["windows", "requisitos", "instalación", "tecnico"]
+  },
+  {
+    "id": "tech-002",
+    "domain": "tecnico",
+    "title": "Versión Android",
+    "content": "Existe una versión para Android, aún en desarrollo, que permite jugar desde el móvil. Requiere Android 9.0 o superior. Tamaño aproximado: 159MB.",
+    "tags": ["android", "movil", "cliente", "descarga"]
+  },
+  {
+    "id": "tech-003",
+    "domain": "tecnico",
+    "title": "Privacidad y permisos",
+    "content": "Según los desarrolladores, la app móvil no recopila ni comparte datos personales del usuario.",
+    "tags": ["privacidad", "datos", "permisos"]
+  },
+  {
+    "id": "platform-001",
+    "domain": "plataformas",
+    "title": "Plataformas disponibles",
+    "content": "FuriusAO está disponible para PC (Windows) y cuenta con una versión preliminar para Android. La versión de Steam aún no ha sido lanzada.",
+    "tags": ["plataformas", "pc", "steam", "android"]
   }
 ]

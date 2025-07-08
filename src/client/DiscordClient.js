@@ -52,7 +52,7 @@ export class DiscordClient {
       const senderId = message.author.id;
       await message.channel.sendTyping();
 
-      const response = await this.onMessage(userMessage, senderId);
+      const response = await this.onMessage(userMessage, senderId, message.author.username);
 
       if (typeof response === 'string') {
         const parts = splitMessage(response);

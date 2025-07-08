@@ -18,11 +18,11 @@ export class WikiProvider extends KnowledgeProvider {
    * No requiere ingestión offline; se usa BindingManager en caliente.
    */
   async ingest() {
-    // No-op: BindingManager se encarga de la consulta directa
+    // No-op
   }
 
   /**
-   * Recupera los fragmentos de la wiki más relevantes para una query.
+   * Recupera la entrada completa de la wiki junto con su URL.
    * @param {string} query
    * @param {{ topK: number }} options
    * @returns {Promise<Array<{ text: string, score: number, metadata: object }>>}
@@ -31,9 +31,10 @@ export class WikiProvider extends KnowledgeProvider {
     await this.bindingManager.init();
     const entry = await this.bindingManager.getWikiEntryByQuery(query);
     if (!entry) return [];
-    const chunks = this._chunkText(entry.contenido, 1000);
-    return chunks.slice(0, options.topK).map(text => ({
-      text,
+
+    // Devolver un único fragmento con todo el contenido y la URL
+    return [{
+      text: entry.contenido,
       score: 1.0,
       metadata: {
         source: 'wiki',
@@ -41,27 +42,6 @@ export class WikiProvider extends KnowledgeProvider {
         category: entry.categoria,
         url: entry.url
       }
-    }));
-  }
-
-  /**
-   * Divide un texto en trozos de longitud máxima.
-   * @param {string} text
-   * @param {number} maxChars
-   * @returns {string[]}
-   */
-  _chunkText(text, maxChars) {
-    const paragraphs = text.split(/\r?\n\r?\n/);
-    const chunks = [];
-    for (const para of paragraphs) {
-      if (para.length <= maxChars) {
-        chunks.push(para.trim());
-      } else {
-        for (let i = 0; i < para.length; i += maxChars) {
-          chunks.push(para.slice(i, i + maxChars).trim());
-        }
-      }
-    }
-    return chunks.filter(c => c.length > 0);
+    }];
   }
 }

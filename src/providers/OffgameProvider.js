@@ -3,10 +3,8 @@ import { KnowledgeProvider } from './KnowledgeProvider.js';
 import fs from 'fs/promises';
 import path from 'path';
 
-const STOPWORDS = new Set([
-  'el','la','los','las','un','una','de','del','por','para','que',
-  'en','y','es','a','con','quien','quienes','cómo','como'
-]);
+import { STOPWORDS } from '../config/stopwords.js';
+
 
 export class OffgameProvider extends KnowledgeProvider {
   constructor({ jsonPath = path.resolve('./data/offgame.json') } = {}) {
@@ -32,14 +30,13 @@ export class OffgameProvider extends KnowledgeProvider {
     await this.init();
     // 1. Tokenizar y filtrar stop-words
     const tokens = (query.toLowerCase().match(/\w+/g) || []);
-    const keywords = tokens.filter(t => t.length > 2 && !STOPWORDS.has(t));
+    const keywords = tokens.filter(t => t.length >= 2 && !STOPWORDS.has(t));
     if (!keywords.length) return [];
 
-    // 2. Buscar entradas que coincidan en title, content o tags
+    // 2. Buscar entradas que coincidan en title o tags
     const hits = this.entries.filter(e =>
       keywords.some(k =>
         e.title.toLowerCase().includes(k) ||
-        e.content.toLowerCase().includes(k) ||
         (e.tags && e.tags.some(tag => tag.toLowerCase().includes(k)))
       )
     );

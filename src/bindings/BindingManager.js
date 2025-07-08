@@ -1,13 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-
-// Lista de palabras vacías en español que deben omitirse de las búsquedas
-const STOPWORDS = new Set([
-  'que', 'como', 'es', 'cuando', 'de', 'la', 'el', 'y', 'a', 'en',
-  'por', 'un', 'una', 'los', 'las', 'con', 'para', 'no', 'se', 'al', 'del',
-  'este', 'esta', 'son', 'su', 'sus', 'sobre', 'entre'
-]);
-
+import { STOPWORDS } from '../config/stopwords.js'; // asume que defines STOPWORDS en otro módulo
 // Función simple para singularizar términos terminados en 's'
 const singularize = word => {
   if (word.length > 3 && word.endsWith('s')) {
@@ -17,36 +10,40 @@ const singularize = word => {
 };
 
 export class BindingManager {
-  constructor() {
+  /**
+   * @param {string} dbPath - Ruta al archivo SQLite de la wiki
+   */
+  constructor(dbPath = '../../data/database.db') {
     this.db = null;
+    this.dbPath = dbPath;
   }
 
   async init() {
     this.db = await open({
-      filename: './data/database.db',
+      filename: this.dbPath,
       driver: sqlite3.Database
     });
   }
 
   /**
    * Retorna la entrada más relevante de la wiki según el mensaje del usuario,
-   * omitiendo palabras vacías y normalizando singular/plural.
+   * omitiendo stopwords, singularizando plurales, y buscando en título o keywords.
+   * @param {string} userMessage
+   * @returns {Promise<{ titulo, categoria, url, contenido }|null>}
    */
   async getWikiEntryByQuery(userMessage) {
     if (!this.db) throw new Error('Database not initialized');
 
-    // Limpiar el mensaje y tokenizar
+    // Limpiar y tokenizar
     const cleanQuery = userMessage
       .toLowerCase()
       .replace(/[^À-ſa-z0-9\s]/gi, '')
       .trim();
-
-    // Separar en términos, filtrar stopwords y tokens muy cortos
     const rawTerms = cleanQuery.split(/\s+/)
-      .filter(t => t.length > 2 && !STOPWORDS.has(t));
+      .filter(t => t.length >= 2 && !STOPWORDS.has(t));
     if (rawTerms.length === 0) return null;
 
-    // Generar conjunto de términos incluyendo singular y plural
+    // Singular/plural
     const termsSet = new Set();
     rawTerms.forEach(t => {
       termsSet.add(t);
@@ -55,7 +52,7 @@ export class BindingManager {
     });
     const terms = Array.from(termsSet);
 
-    // Priorizar coincidencia forzada si el título (o su singular) aparece exactamente
+    // Coincidencia forzada sobre el título completo
     const all = await this.db.all(
       `SELECT titulo, categoria, url, contenido
        FROM wiki`
@@ -67,15 +64,15 @@ export class BindingManager {
     });
     if (forced) return forced;
 
-    // Construir cláusulas LIKE para cada término normalizado
+    // Cláusulas LIKE unidas por OR
     const likeClauses = terms.map(() =>
-      `(LOWER(titulo) LIKE ? OR LOWER(keywords) LIKE ? OR LOWER(contenido) LIKE ?)`
-    ).join(' AND ');
-    const likeValues = terms.flatMap(t => [`%${t}%`, `%${t}%`, `%${t}%`]);
+      `(LOWER(titulo) LIKE ? OR LOWER(keywords) LIKE ?)`
+    ).join(' OR ');
+    const likeValues = terms.flatMap(t => [`%${t}%`, `%${t}%`]);
 
-    // Ejecutar consulta con collation NOCASE para ignorar mayúsculas/minúsculas
+    // Consulta final (incluye keywords en SELECT)
     const [best] = await this.db.all(
-      `SELECT titulo, categoria, url, contenido
+      `SELECT titulo, categoria, url, contenido, keywords
        FROM wiki
        WHERE ${likeClauses}
        COLLATE NOCASE

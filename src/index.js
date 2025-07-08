@@ -21,13 +21,13 @@ import { DiscordClient }    from './client/DiscordClient.js';
   const promptBuilder = new PromptBuilder();
   const openRouter   = new OpenRouterClient();
 
-  const onMessage = async (userMessage, senderId) => {
+  const onMessage = async (userMessage, senderId, userName) => {
     const fragments = await km.retrieveAll(userMessage);
     // Si no hay info, devolvemos fallback directo
     if (!fragments.length) {
-      return `Lo siento, no encontré información sobre "${userMessage}".`;
+      return `Perdon, no puedo ayudarte con eso".`;
     }
-    const prompt = promptBuilder.buildPrompt(userMessage, fragments);
+    const prompt = promptBuilder.buildPrompt(userMessage, fragments, userName);
     console.log(`Prompt para ${senderId}:\n${prompt}\n\n---\n`);
     return await openRouter.getCompletion(prompt);
   };
