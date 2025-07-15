@@ -1,0 +1,218 @@
+[
+  {
+    "clase": "Mago/Nigromante/Druida",
+    "raza": "Enano",
+    "vidaA13": 112,
+    "promedioDiario": 7.5,
+    "vidaMinima": 304,
+    "vidaA45": 352,
+    "vidaMaxima": 400
+  },
+  {
+    "clase": "Mago/Nigromante/Druida",
+    "raza": "Humano",
+    "vidaA13": 105,
+    "promedioDiario": 7.0,
+    "vidaMinima": 297,
+    "vidaA45": 329,
+    "vidaMaxima": 361
+  },
+  {
+    "clase": "Mago/Nigromante/Druida",
+    "raza": "Elfo",
+    "vidaA13": 99,
+    "promedioDiario": 6.5,
+    "vidaMinima": 259,
+    "vidaA45": 307,
+    "vidaMaxima": 355
+  },
+  {
+    "clase": "Mago/Nigromante/Druida",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 93,
+    "promedioDiario": 6.0,
+    "vidaMinima": 253,
+    "vidaA45": 285,
+    "vidaMaxima": 317
+  },
+  {
+    "clase": "Clérigo/Bardo/Asesino",
+    "raza": "Enano",
+    "vidaA13": 130,
+    "promedioDiario": 9.0,
+    "vidaMinima": 386,
+    "vidaA45": 418,
+    "vidaMaxima": 450
+  },
+  {
+    "clase": "Clérigo/Bardo/Asesino",
+    "raza": "Humano",
+    "vidaA13": 123,
+    "promedioDiario": 8.5,
+    "vidaMinima": 347,
+    "vidaA45": 395,
+    "vidaMaxima": 443
+  },
+  {
+    "clase": "Clérigo/Bardo/Asesino",
+    "raza": "Elfo",
+    "vidaA13": 117,
+    "promedioDiario": 8.0,
+    "vidaMinima": 341,
+    "vidaA45": 373,
+    "vidaMaxima": 405
+  },
+  {
+    "clase": "Clérigo/Bardo/Asesino",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 111,
+    "promedioDiario": 7.5,
+    "vidaMinima": 303,
+    "vidaA45": 351,
+    "vidaMaxima": 399
+  },
+  {
+    "clase": "Paladín/Cazador",
+    "raza": "Enano",
+    "vidaA13": 142,
+    "promedioDiario": 10.0,
+    "vidaMinima": 430,
+    "vidaA45": 462,
+    "vidaMaxima": 494
+  },
+  {
+    "clase": "Paladín/Cazador",
+    "raza": "Humano",
+    "vidaA13": 135,
+    "promedioDiario": 9.5,
+    "vidaMinima": 391,
+    "vidaA45": 439,
+    "vidaMaxima": 487
+  },
+  {
+    "clase": "Paladín/Cazador",
+    "raza": "Elfo",
+    "vidaA13": 129,
+    "promedioDiario": 9.0,
+    "vidaMinima": 385,
+    "vidaA45": 417,
+    "vidaMaxima": 449
+  },
+  {
+    "clase": "Paladín/Cazador",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 123,
+    "promedioDiario": 8.5,
+    "vidaMinima": 347,
+    "vidaA45": 395,
+    "vidaMaxima": 443
+  },
+  {
+    "clase": "Bandido",
+    "raza": "Enano",
+    "vidaA13": 136,
+    "promedioDiario": 9.5,
+    "vidaMinima": 392,
+    "vidaA45": 440,
+    "vidaMaxima": 488
+  },
+  {
+    "clase": "Bandido",
+    "raza": "Humano",
+    "vidaA13": 129,
+    "promedioDiario": 9.0,
+    "vidaMinima": 385,
+    "vidaA45": 417,
+    "vidaMaxima": 449
+  },
+  {
+    "clase": "Bandido",
+    "raza": "Elfo",
+    "vidaA13": 123,
+    "promedioDiario": 8.5,
+    "vidaMinima": 347,
+    "vidaA45": 395,
+    "vidaMaxima": 443
+  },
+  {
+    "clase": "Bandido",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 117,
+    "promedioDiario": 8.0,
+    "vidaMinima": 341,
+    "vidaA45": 373,
+    "vidaMaxima": 405
+  },
+  {
+    "clase": "Arquero/Guerrero",
+    "raza": "Enano",
+    "vidaA13": 148,
+    "promedioDiario": 10.5,
+    "vidaMinima": 436,
+    "vidaA45": 484,
+    "vidaMaxima": 532
+  },
+  {
+    "clase": "Arquero/Guerrero",
+    "raza": "Humano",
+    "vidaA13": 141,
+    "promedioDiario": 10.0,
+    "vidaMinima": 429,
+    "vidaA45": 461,
+    "vidaMaxima": 493
+  },
+  {
+    "clase": "Arquero/Guerrero",
+    "raza": "Elfo",
+    "vidaA13": 135,
+    "promedioDiario": 9.5,
+    "vidaMinima": 391,
+    "vidaA45": 439,
+    "vidaMaxima": 487
+  },
+  {
+    "clase": "Arquero/Guerrero",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 129,
+    "promedioDiario": 9.0,
+    "vidaMinima": 385,
+    "vidaA45": 417,
+    "vidaMaxima": 449
+  },
+  {
+    "clase": "Trabajadoras",
+    "raza": "Enano",
+    "vidaA13": 118,
+    "promedioDiario": 8.0,
+    "vidaMinima": 342,
+    "vidaA45": 374,
+    "vidaMaxima": 406
+  },
+  {
+    "clase": "Trabajadoras",
+    "raza": "Humano",
+    "vidaA13": 111,
+    "promedioDiario": 7.5,
+    "vidaMinima": 303,
+    "vidaA45": 351,
+    "vidaMaxima": 399
+  },
+  {
+    "clase": "Trabajadoras",
+    "raza": "Elfo",
+    "vidaA13": 105,
+    "promedioDiario": 7.0,
+    "vidaMinima": 297,
+    "vidaA45": 329,
+    "vidaMaxima": 361
+  },
+  {
+    "clase": "Trabajadoras",
+    "raza": "Elfo Oscuro / Gnomo",
+    "vidaA13": 99,
+    "promedioDiario": 6.5,
+    "vidaMinima": 259,
+    "vidaA45": 307,
+    "vidaMaxima": 355
+  }
+]

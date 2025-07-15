@@ -66,7 +66,7 @@
     "id": "staff-002",
     "domain": "staff",
     "title": "Kirito",
-    "content": "Kirito, o Leo es el actual coordinador del proyecto junto a Abusing.",
+    "content": "Kirito, o Leo es el actual coordinador del proyecto junto a Abusing. Es hincha fanatico de Velez Sarsfield",
     "tags": ["GM", "kirito", "kiri"]
   },
   {
@@ -123,7 +123,7 @@
     "domain": "faq",
     "title": "¿Dónde reporto bugs?",
     "content": "Puedes reportar bugs en este discord en el canal de #ticket-soporte o puedes usar el comando /SOPORTE ingame para abrir un ticket.",
-    "tags": ["errores", "soporte", "contacto"]
+    "tags": ["bug", "soporte", "contacto"]
   },
   {
     "id": "faq-003",
@@ -168,6 +168,27 @@
     "tags": ["razas", "clases", "habilidades"]
   },
   {
+    "id": "game-004",
+    "domain": "gameplay",
+    "title": "Valores del juego",
+    "content": "El juego actualmente esta en una experiencia x8 y el oro en x1. Esto significa que la experiencia obtenida por matar monstruos, completar misiones y otras actividades es multiplicada por 8, mientras que el oro obtenido se mantiene en su valor normal.",
+    "tags": ["valores", "experiencia", "oro", "multiplicadores", "exp"]
+  },
+  {
+    "id": "game-005",
+    "domain": "gameplay",
+    "title": "Lista de cambios",
+    "content": "En nuestro servidor de discord podras encontrar un canal llamado #changelog donde se publican los cambios y novedades del juego.",
+    "tags": ["changelog"]
+  },
+  {
+    "id": "game-006",
+    "domain": "gameplay",
+    "title": "Reglamento",
+    "content": "En la wiki podras encontrar el reglamento completo del juego, donde se detallan las normas y reglas que debes seguir para evitar sanciones como baneo o encarcelamiento.",
+    "tags": ["reglamento", "normas", "reglas", "comportamiento", "ban", "baneo", "encarcelamiento", "sanciones"]
+  },
+  {
     "id": "tech-001",
     "domain": "tecnico",
     "title": "Requisitos mínimos en PC",
@@ -178,7 +199,7 @@
     "id": "tech-002",
     "domain": "tecnico",
     "title": "Versión Android",
-    "content": "Existe una versión para Android, aún en desarrollo, que permite jugar desde el móvil. Requiere Android 9.0 o superior. Tamaño aproximado: 159MB.",
+    "content": "Existe una versión para Android, que permite jugar desde el móvil. Requiere Android 9.0 o superior.",
     "tags": ["android", "movil", "cliente", "descarga"]
   },
   {

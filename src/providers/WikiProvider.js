@@ -1,5 +1,6 @@
+// src/providers/WikiProvider.js
 import { KnowledgeProvider } from './KnowledgeProvider.js';
-import { BindingManager } from '../bindings/BindingManager.js';
+import { BindingManager }     from '../bindings/BindingManager.js';
 
 /**
  * WikiProvider usa BindingManager para recuperar información de la wiki en caliente.
@@ -16,32 +17,26 @@ export class WikiProvider extends KnowledgeProvider {
 
   /**
    * No requiere ingestión offline; se usa BindingManager en caliente.
-   */
-  async ingest() {
-    // No-op
-  }
-
-  /**
-   * Recupera la entrada completa de la wiki junto con su URL.
    * @param {string} query
-   * @param {{ topK: number }} options
-   * @returns {Promise<Array<{ text: string, score: number, metadata: object }>>}
+   * @param {Object} options
+   * @param {number} options.topK
+   * @returns {Promise<Array<{ text: string, score: number, metadata: Object }>>}
    */
   async retrieve(query, options = { topK: 5 }) {
     await this.bindingManager.init();
-    const entry = await this.bindingManager.getWikiEntryByQuery(query);
-    if (!entry) return [];
+    const entries = await this.bindingManager.getWikiEntryByQuery(query);
+    if (!entries || entries.length === 0) return [];
 
-    // Devolver un único fragmento con todo el contenido y la URL
-    return [{
+    // Mapeo a fragments
+    return entries.map(entry => ({
       text: entry.contenido,
       score: 1.0,
       metadata: {
-        source: 'wiki',
-        title: entry.titulo,
+        source:   'wiki',
+        title:    entry.titulo,
         category: entry.categoria,
-        url: entry.url
+        url:      entry.url
       }
-    }];
+    }));
   }
 }

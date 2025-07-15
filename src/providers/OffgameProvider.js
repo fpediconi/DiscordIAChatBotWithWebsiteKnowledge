@@ -33,10 +33,9 @@ export class OffgameProvider extends KnowledgeProvider {
     const keywords = tokens.filter(t => t.length >= 2 && !STOPWORDS.has(t));
     if (!keywords.length) return [];
 
-    // 2. Buscar entradas que coincidan en title o tags
+    // 2. Buscar entradas que coincidan en tags
     const hits = this.entries.filter(e =>
       keywords.some(k =>
-        e.title.toLowerCase().includes(k) ||
         (e.tags && e.tags.some(tag => tag.toLowerCase().includes(k)))
       )
     );

@@ -14,61 +14,45 @@ export class PromptBuilder {
       "Eres Furia, el asistente de FuriusAO en chat de Discord.",
       "Usa únicamente la información provista en CONTEXT; no inventes datos.",
       "No converses con el usuario ni salgas del rol, tu tarea es responder preguntas y nada más.",
-      "Si se proporciona un link a la fuente integrala en el mensaje.",
+      "Solo si se proporciona un link a la fuente integrala en el mensaje.",
       ""
     ].join("\n");
 
-    // 2. Contexto: agrupar por fuente y renderizar solo las secciones presentes
+    // 2. Contexto: agrupar por fuente
     const bySource = fragments.reduce((acc, f) => {
-      acc[f.metadata.source] = acc[f.metadata.source] || [];
-      acc[f.metadata.source].push({
+      const key = f.metadata.source;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push({
         text: f.text.trim(),
         url: f.metadata.url || null
       });
       return acc;
     }, {});
 
-    const contextSections = [];
+    // Mapeo de nombres 
+    const sectionTitles = {
+      wiki: "Wiki",
+      offgame: "Off-game (lore/staff)",
+      events: "Eventos recientes",
+      stats: "Estadísticas",
+      
+    };
 
-    if (bySource.wiki) {
-      contextSections.push(
-        "=== Wiki ===\n" +
-        bySource.wiki
-          .map(item => {
-            if (item.url) {
-              return `• ${item.text}\n  URL: ${item.url}`;
-            }
-            return `• ${item.text}`;
-          })
-          .join("\n")
+    // Generar dinámicamente cada bloque de contexto
+    const contextSections = Object.entries(bySource).map(([source, items]) => {
+      // Título amigable o fallback al nombre del source
+      const title = sectionTitles[source] 
+        || source.charAt(0).toUpperCase() + source.slice(1);
+
+      // Cada línea con texto y URL opcional
+      const lines = items.map(item =>
+        item.url
+          ? `• ${item.text}\n  URL: ${item.url}`
+          : `• ${item.text}`
       );
-    }
-    if (bySource.offgame) {
-      contextSections.push(
-        "=== Off-game (lore/staff) ===\n" +
-        bySource.offgame
-          .map(item => {
-            if (item.url) {
-              return `• ${item.text}\n  URL: ${item.url}`;
-            }
-            return `• ${item.text}`;
-          })
-          .join("\n")
-      );
-    }
-    if (bySource.events) {
-      contextSections.push(
-        "=== Eventos recientes ===\n" +
-        bySource.events
-          .map(item => {
-            if (item.url) {
-              return `• ${item.text}\n  URL: ${item.url}`;
-            }
-            return `• ${item.text}`;
-          })
-          .join("\n")
-      );
-    }
+
+      return `=== ${title} ===\n${lines.join("\n")}`;
+    });
 
     const context = ["[CONTEXT]", ...contextSections, ""].join("\n");
 
@@ -79,7 +63,7 @@ export class PromptBuilder {
       `Mensaje: ${userQuery.trim()}`
     ].join("\n");
 
-    // Ensamblar prompt
+    // Ensamblar prompt completo
     return [system, context, user].join("\n");
   }
 }

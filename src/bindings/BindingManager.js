@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-import { STOPWORDS } from '../config/stopwords.js'; // asume que defines STOPWORDS en otro módulo
+import { STOPWORDS } from '../config/stopwords.js';
+
 // Función simple para singularizar términos terminados en 's'
 const singularize = word => {
   if (word.length > 3 && word.endsWith('s')) {
@@ -19,67 +20,57 @@ export class BindingManager {
   }
 
   async init() {
-    this.db = await open({
-      filename: this.dbPath,
-      driver: sqlite3.Database
-    });
+    if (!this.db) {
+      this.db = await open({
+        filename: this.dbPath,
+        driver: sqlite3.Database
+      });
+    }
   }
 
   /**
-   * Retorna la entrada más relevante de la wiki según el mensaje del usuario,
-   * omitiendo stopwords, singularizando plurales, y buscando en título o keywords.
+   * Recupera entradas de la wiki según keywords de la query del usuario.
    * @param {string} userMessage
-   * @returns {Promise<{ titulo, categoria, url, contenido }|null>}
+   * @returns {Promise<Array<{titulo:string, categoria:string, url:string, contenido:string, keywords:string}>>|null}
    */
   async getWikiEntryByQuery(userMessage) {
     if (!this.db) throw new Error('Database not initialized');
 
-    // Limpiar y tokenizar
+    // 1) Limpiar y tokenizar
     const cleanQuery = userMessage
+      .normalize('NFD')              // eliminar acentos
+      .replace(/[̀-ͯ]/g, '')
       .toLowerCase()
-      .replace(/[^À-ſa-z0-9\s]/gi, '')
+      .replace(/[^a-z0-9\s]/gi, '')
       .trim();
+
     const rawTerms = cleanQuery.split(/\s+/)
       .filter(t => t.length >= 2 && !STOPWORDS.has(t));
     if (rawTerms.length === 0) return null;
 
-    // Singular/plural
+    // 2) Singular/plural
     const termsSet = new Set();
     rawTerms.forEach(t => {
       termsSet.add(t);
-      const s = singularize(t);
-      if (s !== t) termsSet.add(s);
+      const sing = singularize(t);
+      if (sing !== t) termsSet.add(sing);
     });
     const terms = Array.from(termsSet);
 
-    // Coincidencia forzada sobre el título completo
-    const all = await this.db.all(
-      `SELECT titulo, categoria, url, contenido
-       FROM wiki`
-    );
-    const forced = all.find(e => {
-      const title = e.titulo.toLowerCase();
-      const singTitle = singularize(title);
-      return cleanQuery.includes(title) || cleanQuery.includes(singTitle);
-    });
-    if (forced) return forced;
+    // 3) Filtrado sólo por keywords
+    const likeClauses = terms
+      .map(() => `(LOWER(keywords) LIKE ?)`)
+      .join(' OR ');
+    const likeValues = terms.flatMap(t => [`%${t}%`]);
 
-    // Cláusulas LIKE unidas por OR
-    const likeClauses = terms.map(() =>
-      `(LOWER(titulo) LIKE ? OR LOWER(keywords) LIKE ?)`
-    ).join(' OR ');
-    const likeValues = terms.flatMap(t => [`%${t}%`, `%${t}%`]);
-
-    // Consulta final (incluye keywords en SELECT)
-    const [best] = await this.db.all(
+    const results = await this.db.all(
       `SELECT titulo, categoria, url, contenido, keywords
        FROM wiki
        WHERE ${likeClauses}
-       COLLATE NOCASE
-       LIMIT 1`,
+       COLLATE NOCASE`,
       likeValues
     );
 
-    return best || null;
+    return results && results.length ? results : null;
   }
 }
