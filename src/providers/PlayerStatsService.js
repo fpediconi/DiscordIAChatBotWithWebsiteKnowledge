@@ -68,7 +68,7 @@ export class PlayerStatsService {
   }
 
   async _fetchRemoteAll() {
-    const url = 'https://panel.fsao.com.ar/api/usuario';
+    const url = process.env.FURIA_PLAYER_STATS_URL;
     const res = await global.fetch(url);
     if (!res.ok) throw new Error(`PlayerStatsService: fallo al fetch ${url}`);
     return res.json();
@@ -97,7 +97,7 @@ export class PlayerStatsService {
     const key = nombre.toLowerCase().trim();
     const found = all.find(p => p.nombre && p.nombre.toLowerCase().trim() === key);
     if (found) return found;
-    const url = `https://panel.fsao.com.ar/api/usuario?user=${encodeURIComponent(nombre)}`;
+    const url = `${process.env.FURIA_PLAYER_STATS_URL}?user=${encodeURIComponent(nombre)}`;
     const res = await global.fetch(url);
     if (!res.ok) throw new Error(`PlayerStatsService: jugador ${nombre} no encontrado`);
     return res.json();

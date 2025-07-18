@@ -8,4 +8,5 @@ export const config = {
   openRouterModel: process.env.OPENROUTER_MODEL || 'mistral-7b-openorca',
   discordToken: process.env.DISCORD_TOKEN,
   discordChannelId: process.env.DISCORD_CHANNEL_ID || '1378220808530301013',
+  uselocalAPI: process.env.USE_LOCAL_API === 'true' || process.env.USE_LOCAL_API === 'True',
 };

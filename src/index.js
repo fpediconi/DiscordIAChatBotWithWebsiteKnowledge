@@ -10,18 +10,15 @@ import { KnowledgeProvider } from './providers/KnowledgeProvider.js';
 import { PromptBuilder }    from './ia/PromptBuilder.js';
 import { OpenRouterClient } from './ia/OpenRouterClient.js';
 import { DiscordClient }    from './client/DiscordClient.js';
-
+import { MessageQueueManager } from './utils/MessageQueueManager.js';
+import { OllamaClient } from './ia/OllamaClient.js';
+import { config } from './config/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 
 const LOG_FILE = resolve(__dirname, '..', 'data', 'unanswered.json');
 
-/**
- * Registra en data/unanswered.json la fecha y mensaje de consultas sin respuesta.
- * Crea el archivo si no existe.
- * @param {string} message 
- */
 async function logUnanswered(message) {
   let logs = [];
   try {
@@ -32,7 +29,6 @@ async function logUnanswered(message) {
       console.error('Error leyendo el log de consultas no atendidas:', err);
       return;
     }
-    // si no existe, asumimos array vacío
   }
   logs.push({
     date: new Date().toISOString(),
@@ -61,19 +57,34 @@ async function logUnanswered(message) {
 
   const promptBuilder = new PromptBuilder();
   const openRouter    = new OpenRouterClient();
+  const ollamaClient  = new OllamaClient();
 
-  const onMessage = async (userMessage, senderId, userName) => {
+  const onMessage = async (userMessage, senderId, userName, replyCallback) => {
     const fragments = await km.retrieveAll(userMessage);
-    // Si no hay info, devolvemos fallback y lo registramos
     if (!fragments.length) {
       await logUnanswered(userMessage);
-      return `Perdón, no puedo ayudarte con eso. Intenta formular tu pregunta de otra manera o utiliza palabras clave más específicas. Recuerda que las estadísticas en tiempo real y los calculos de vida estan en BETA y pueden fallar o no detectar tus preguntas.`;
+      replyCallback(`Perdón, no puedo ayudarte con eso. Intenta formular tu pregunta de otra manera o utiliza palabras clave más específicas. Recuerda que las estadísticas en tiempo real y los calculos de vida están en BETA y pueden fallar o no detectar tus preguntas.`);
+      return;
     }
     const prompt = promptBuilder.buildPrompt(userMessage, fragments, userName);
     console.log(`Prompt para ${senderId}:\n${prompt}\n\n---\n`);
-    return await openRouter.getCompletion(prompt);
+    let respuesta;
+    if(config.uselocalAPI) {
+      respuesta = await ollamaClient.getCompletion(prompt);
+    } else {
+      respuesta = await openRouter.getCompletion(prompt);
+    }
+    replyCallback(respuesta);
   };
 
-  const discordBot = new DiscordClient(onMessage);
+  const queueManager = new MessageQueueManager({
+    onValidMessage: onMessage,
+    messagesPerUserPerMinute: 15,
+    maxQueueLength: 10
+  });
+
+  const discordBot = new DiscordClient((userMessage, senderId, userName, replyCallback, isEdit = false) => {
+    queueManager.enqueue(userMessage, senderId, userName, replyCallback, isEdit);
+  });
   await discordBot.start();
 })();
